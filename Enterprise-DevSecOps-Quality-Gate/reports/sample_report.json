@@ -1,0 +1,27 @@
+{
+  "build": {
+    "status": "PASS",
+    "duration_seconds": 18.4
+  },
+  "tests": {
+    "total": 128,
+    "passed": 128,
+    "failed": 0
+  },
+  "quality": {
+    "status": "PASS",
+    "issues": 0,
+    "coverage_percent": 94.2
+  },
+  "security": {
+    "status": "PASS",
+    "issues": 0,
+    "high_critical": 0
+  },
+  "dependencies": {
+    "status": "PASS",
+    "issues": 0,
+    "audited": 24
+  },
+  "scenario": "pass"
+}

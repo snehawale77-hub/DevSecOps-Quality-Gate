@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111414">
+  <title>Quality Gate | Release Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Quality Gate home">
+        <span class="brand-mark" aria-hidden="true">Q</span>
+        <span>RELEASE CONTROL<small>DEVSECOPS / QUALITY GATE</small></span>
+      </a>
+      <div class="topbar-right">
+        <span class="live-indicator"><i></i> LIVE TELEMETRY</span>
+        <span class="run-id">RUN <b id="run-id">LOCAL-0001</b></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">DEPLOYMENT CONTROL / PIPELINE 01</p>
+          <h1 id="page-title">Quality Gate</h1>
+          <p class="intro-copy">Release confidence, measured across every critical check.</p>
+        </div>
+        <div class="scenario-control">
+          <label for="scenario">DEMO SCENARIO</label>
+          <select id="scenario" aria-label="Choose quality-gate demonstration scenario">
+            <option value="pass">PASS / all checks clear</option>
+            <option value="fail">FAIL / issues detected</option>
+          </select>
+          <button id="refresh" class="refresh-button" type="button" title="Refresh telemetry" aria-label="Refresh telemetry">↻</button>
+        </div>
+      </section>
+
+      <section class="pipeline-section" aria-label="Pipeline stages">
+        <div class="section-heading"><span>01</span><h2>Execution path</h2><span class="section-meta">SELECT A STEP TO LEARN MORE</span></div>
+        <ol class="pipeline-flow">
+          <li class="pipeline-node source-node" data-stage="source"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">01</span><span class="node-name">Developer</span><small class="node-status">COMMIT</small></button></li>
+          <li class="pipeline-node" data-stage="build"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">02</span><span class="node-name">Build</span><small class="node-status">WAITING</small></button></li>
+          <li class="pipeline-node" data-stage="tests"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">03</span><span class="node-name">Unit tests</span><small class="node-status">WAITING</small></button></li>
+          <li class="pipeline-node" data-stage="code_quality"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">04</span><span class="node-name">Code quality</span><small class="node-status">WAITING</small></button></li>
+          <li class="pipeline-node" data-stage="security"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">05</span><span class="node-name">Security scan</span><small class="node-status">WAITING</small></button></li>
+          <li class="pipeline-node" data-stage="dependencies"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">06</span><span class="node-name">Dependencies</span><small class="node-status">WAITING</small></button></li>
+          <li class="pipeline-node deploy-node" data-stage="deployment"><button class="step-button" type="button" aria-pressed="false"><span class="node-icon">07</span><span class="node-name">Deploy</span><small class="node-status">WAITING</small></button></li>
+        </ol>
+        <aside class="step-explainer" aria-live="polite" aria-labelledby="step-title">
+          <div class="explainer-index" id="step-number">01</div>
+          <div class="explainer-main"><p class="eyebrow" id="step-tool">PIPELINE INPUT</p><h3 id="step-title">Developer commit</h3><p id="step-description">A developer submits a code change. This starts the automated checks; no deployment decision is made until every required stage finishes.</p></div>
+          <div class="explainer-rule"><span>WHY IT MATTERS</span><p id="step-rule">Creates a traceable change for the pipeline to validate.</p></div>
+          <div class="explainer-result"><span>LIVE RESULT</span><strong id="step-result">SOURCE</strong></div>
+        </aside>
+        <p class="flow-summary" id="flow-summary">The pipeline runs in order. Deployment is allowed only when every check passes.</p>
+      </section>
+
+      <section class="gate-banner" id="gate-banner" data-state="loading" aria-live="polite">
+        <div class="gate-symbol" aria-hidden="true">—</div>
+        <div class="gate-copy"><p class="eyebrow">FINAL DECISION</p><h2 id="gate-status">Evaluating checks</h2><p id="gate-message">Collecting pipeline telemetry…</p></div>
+        <div class="gate-deployment"><span>DEPLOYMENT</span><strong id="deployment-status">PENDING</strong></div>
+      </section>
+
+      <section class="checks-section" aria-labelledby="checks-title">
+        <div class="section-heading"><span>02</span><h2 id="checks-title">Quality signals</h2><span class="section-meta" id="last-updated">AWAITING TELEMETRY</span></div>
+        <div class="signal-grid">
+          <article class="signal-card" data-card="build"><div class="card-top"><span class="card-index">01 / BUILD</span><span class="status-pill">WAITING</span></div><h3>Build</h3><p class="card-value" data-value="build">—</p><p class="card-detail" data-detail="build">Build validation</p></article>
+          <article class="signal-card" data-card="tests"><div class="card-top"><span class="card-index">02 / TEST</span><span class="status-pill">WAITING</span></div><h3>Unit tests</h3><p class="card-value" data-value="tests">—</p><p class="card-detail" data-detail="tests">Test execution</p></article>
+          <article class="signal-card" data-card="code_quality"><div class="card-top"><span class="card-index">03 / CODE QUALITY</span><span class="status-pill">WAITING</span></div><h3>Code quality</h3><p class="card-value" data-value="code_quality">—</p><p class="card-detail" data-detail="code_quality">Ruff findings</p><p class="card-help">Checks style and common code errors before they reach production.</p></article>
+          <article class="signal-card" data-card="security"><div class="card-top"><span class="card-index">04 / SECURITY</span><span class="status-pill">WAITING</span></div><h3>Security scan</h3><p class="card-value" data-value="security">—</p><p class="card-detail" data-detail="security">Bandit findings</p><p class="card-help">Looks for unsafe Python patterns and prioritizes severe findings.</p></article>
+          <article class="signal-card" data-card="dependencies"><div class="card-top"><span class="card-index">05 / DEPENDENCIES</span><span class="status-pill">WAITING</span></div><h3>Dependency scan</h3><p class="card-value" data-value="dependencies">—</p><p class="card-detail" data-detail="dependencies">pip-audit findings</p><p class="card-help">Checks third-party packages for published vulnerabilities.</p></article>
+          <article class="signal-card overall-card" data-card="overall"><div class="card-top"><span class="card-index">06 / RELEASE</span><span class="status-pill">WAITING</span></div><h3>Quality gate</h3><p class="card-value" data-value="overall">—</p><p class="card-detail" data-detail="overall">Release decision</p></article>
+        </div>
+      </section>
+
+      <section class="analysis-section" aria-labelledby="analysis-title">
+        <div class="section-heading"><span>03</span><h2 id="analysis-title">Test execution</h2><span class="section-meta">PASS / FAIL DISTRIBUTION</span></div>
+        <div class="chart-panel">
+          <div class="chart-copy"><p class="eyebrow">UNIT TESTS</p><strong id="test-summary">Awaiting run</strong><span>Automated suite results</span></div>
+          <div class="chart-wrap"><canvas id="test-chart" aria-label="Doughnut chart of passed and failed tests"></canvas></div>
+          <div class="chart-legend"><p><i class="legend-pass"></i>Passed <b id="passed-count">—</b></p><p><i class="legend-fail"></i>Failed <b id="failed-count">—</b></p></div>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>ENTERPRISE DEVSECOPS QUALITY GATE</span><span>LOCAL SIMULATION · REFRESHES EVERY 15 SECONDS</span></footer>
+  </div>
+</body>
+</html>
